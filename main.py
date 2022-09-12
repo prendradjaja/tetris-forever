@@ -14,12 +14,35 @@ class LjoState:
     placed: List[str]
 
 def main():
-    game = tetris.BaseGame(seed=14, board_size=(100,10))
+    game = tetris.BaseGame(
+        # seed=17,
+        board_size=(100,10)
+    )
     game.x_sonic_drop = lambda: x_sonic_drop(game)
 
     player = ForeverPlayer(game)
+#     for r, row in enumerate(reversed(
+# '''
+# ....
+# ....
+# ...#
+# ..##
+# ..##
+# .###
+# ####
+# ####
+# ####
+# ####
+# ####
+# '''.rstrip('\n').splitlines()), start=1):
+#         for c, ch in enumerate(row):
+#             if ch == '#':
+#                 game.board[-r][c] = 2
+#
+#     player.stz_state = (7,2)
 
     rendered = False
+    render(game)
     try:
         for i in range(28):
             player.handle_one_piece()
@@ -260,13 +283,17 @@ class ForeverPlayer:
                 game.rotate(-1)
                 game.hard_drop()
             elif piece_type == 'S':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
 
         elif stz_state == (2, 0):
             if piece_type == 'Z':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left(99)
+                game.hard_drop()
             elif piece_type == 'S':
                 game.rotate(-1)
                 game.left()
@@ -286,15 +313,22 @@ class ForeverPlayer:
                 assert False
         elif stz_state == (2, 2):
             if piece_type == 'T':
-                raise Exception('TODO')
+                game.rotate(1)
+                game.left(99)
+                game.x_sonic_drop()
+                game.rotate(-1)
             else:
                 assert False
 
         elif stz_state == (3, 0):
             if piece_type == 'T':
-                raise Exception('TODO')
+                game.rotate(1)
+                game.left(99)
+                game.hard_drop()
             elif piece_type == 'S':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
         elif stz_state == (3, 1):
@@ -322,7 +356,9 @@ class ForeverPlayer:
 
         elif stz_state == (4, 0):
             if piece_type == 'S':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
         elif stz_state == (4, 1):
@@ -356,9 +392,13 @@ class ForeverPlayer:
                 assert False
         elif stz_state == (4, 4):
             if piece_type == 'Z':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left(99)
+                game.hard_drop()
             elif piece_type == 'T':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
 
@@ -409,7 +449,9 @@ class ForeverPlayer:
 
         elif stz_state == (7, 0):
             if piece_type == 'S':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left(99)
+                game.hard_drop()
             elif piece_type == 'T':
                 game.rotate(-1)
                 game.left()
@@ -433,13 +475,17 @@ class ForeverPlayer:
                 game.left(99)
                 game.hard_drop()
             elif piece_type == 'Z':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
 
         elif stz_state == (8, 0):
             if piece_type == 'T':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
         elif stz_state == (8, 1):
@@ -466,7 +512,9 @@ class ForeverPlayer:
                 assert False
         elif stz_state == (8, 3):
             if piece_type == 'T':
-                raise Exception('TODO')
+                game.rotate(1)
+                game.left(99)
+                game.hard_drop()
             else:
                 assert False
 
@@ -519,7 +567,7 @@ class ForeverPlayer:
             else:
                 assert False
         else:
-            raise Exception('TODO')
+            assert False
 
 def x_sonic_drop(game):
     for _ in range(200):

@@ -61,6 +61,7 @@ class ForeverPlayer:
         self.phase = 'main'
         self.stz_state = (0, 0)
         self.ljo_state = LJO_INDETERMINATE_ORDER
+        self.i_state = -1
 
     def handle_one_piece(self):
         game = self.game
@@ -68,8 +69,9 @@ class ForeverPlayer:
         phase = 'main'  # 'main' | 'rebalance'
         if phase == 'main':
             if piece.type == MinoType.I:
-                game.rotate(random.choice([-1, 1]))
+                game.rotate(self.i_state)
                 game.hard_drop()
+                self.i_state = self._other_i_state()
             elif piece.type in [MinoType.L, MinoType.O, MinoType.J]:
                 piece_type = {
                     MinoType.L: 'L',
@@ -96,12 +98,18 @@ class ForeverPlayer:
         else:
             raise Exception('Not implemented')
 
+    def _other_i_state(self):
+        assert self.i_state in [-1, 1]
+        if self.i_state == -1:
+            return 1
+        else:
+            return -1
+
     def handle_one_piece_main_ljo(self, piece_type):
         game = self.game
         if self.ljo_state == LJO_INDETERMINATE_ORDER:
             order = self._determine_ljo_order(piece_type)
             self.ljo_state = LjoState(order, [])
-            print(self.ljo_state)
 
         # Would it be cleaner to invert this hierarchy? (Instead of "if len" on the outside then "if
         # order" on the inside", "if order" on the outside" then "if len" on the inside)

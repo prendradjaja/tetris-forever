@@ -24,33 +24,31 @@ def main():
     player.handle_one_piece()
     player.handle_one_piece()
     player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
+    player.handle_one_piece()
     render(game)
     player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
-    # player.handle_one_piece()
 
     print('Queue:', game.queue)
     print('Hold:', game.hold)
@@ -111,13 +109,17 @@ class ForeverPlayer:
         if len(ljo_state.placed) == 0:
             # O first cases
             if ljo_state.order[0] == 'O':
-                raise Exception('TODO')
+                game.right(99)
+                game.left()
+                game.hard_drop()
 
             # O last cases
             elif ljo_state.order == [*'JLO']:
                 raise Exception('TODO')
             elif ljo_state.order == [*'LJO']:
-                raise Exception('TODO')
+                game.rotate(1)
+                game.right(2)
+                game.hard_drop()
 
             # O middle cases
             elif ljo_state.order == [*'JOL']:
@@ -137,13 +139,17 @@ class ForeverPlayer:
             if ljo_state.order == [*'OJL']:
                 raise Exception('TODO')
             elif ljo_state.order == [*'OLJ']:
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.right(99)
+                game.hard_drop()
 
             # O last cases
             elif ljo_state.order == [*'JLO']:
                 raise Exception('TODO')
             elif ljo_state.order == [*'LJO']:
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.right(99)
+                game.hard_drop()
 
             # O middle cases
             elif ljo_state.order == [*'JOL']:
@@ -164,13 +170,17 @@ class ForeverPlayer:
             if ljo_state.order == [*'OJL']:
                 raise Exception('TODO')
             elif ljo_state.order == [*'OLJ']:
-                raise Exception('TODO')
+                game.rotate(1)
+                game.right(2)
+                game.hard_drop()
 
             # O last cases
             elif ljo_state.order == [*'JLO']:
                 raise Exception('TODO')
             elif ljo_state.order == [*'LJO']:
-                raise Exception('TODO')
+                game.right(99)
+                game.left()
+                game.hard_drop()
 
             # O middle cases
             elif ljo_state.order == [*'JOL']:

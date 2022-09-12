@@ -21,19 +21,22 @@ def main():
 
     rendered = False
     try:
-        for _ in range(28):
+        for i in range(28):
             player.handle_one_piece()
     except:
         rendered = True
         print('Queue:', game.queue)
         print('Hold:', game.hold)
+        print('Piece #:', i)
         render(game)
         raise
 
     if not rendered:
         print('Queue:', game.queue)
         print('Hold:', game.hold)
+        print('Piece #:', i)
         render(game)
+
 
 class ForeverPlayer:
     def __init__(self, game):
@@ -233,15 +236,20 @@ class ForeverPlayer:
                 game.left()
                 game.hard_drop()
             elif piece_type == 'T':
-                raise Exception('TODO')
+                game.left(99)
+                game.hard_drop()
             else:
                 assert False
 
         elif stz_state == (1, 0):
             if piece_type == 'Z':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left(99)
+                game.hard_drop()
             elif piece_type == 'S':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
         elif stz_state == (1, 1):
@@ -260,7 +268,9 @@ class ForeverPlayer:
             if piece_type == 'Z':
                 raise Exception('TODO')
             elif piece_type == 'S':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
         elif stz_state == (2, 1):
@@ -269,7 +279,9 @@ class ForeverPlayer:
                 game.left(99)
                 game.hard_drop()
             elif piece_type == 'S':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
         elif stz_state == (2, 2):
@@ -287,7 +299,9 @@ class ForeverPlayer:
                 assert False
         elif stz_state == (3, 1):
             if piece_type == 'Z':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left(99)
+                game.hard_drop()
             elif piece_type == 'S':
                 game.rotate(-1)
                 game.left()
@@ -296,9 +310,13 @@ class ForeverPlayer:
                 assert False
         elif stz_state == (3, 2):
             if piece_type == 'Z':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left(99)
+                game.hard_drop()
             elif piece_type == 'T':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
 
@@ -309,9 +327,13 @@ class ForeverPlayer:
                 assert False
         elif stz_state == (4, 1):
             if piece_type == 'T':
-                raise Exception('TODO')
+                game.rotate()
+                game.left(99)
+                game.hard_drop()
             elif piece_type == 'S':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
         elif stz_state == (4, 2):
@@ -320,12 +342,16 @@ class ForeverPlayer:
                 game.left(99)
                 game.hard_drop()
             elif piece_type == 'T':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
         elif stz_state == (4, 3):
             if piece_type == 'Z':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left(99)
+                game.hard_drop()
             else:
                 assert False
         elif stz_state == (4, 4):
@@ -338,7 +364,9 @@ class ForeverPlayer:
 
         elif stz_state == (5, 0):
             if piece_type == 'S':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
         elif stz_state == (5, 1):
@@ -350,7 +378,9 @@ class ForeverPlayer:
                 assert False
         elif stz_state == (5, 2):
             if piece_type == 'Z':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left(99)
+                game.hard_drop()
             else:
                 assert False
 
@@ -360,14 +390,20 @@ class ForeverPlayer:
                 game.left(99)
                 game.hard_drop()
             elif piece_type == 'T':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
         elif stz_state == (6, 1):
             if piece_type == 'T':
-                raise Exception('TODO')
+                game.rotate()
+                game.left(99)
+                game.hard_drop()
             elif piece_type == 'Z':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
 
@@ -382,14 +418,20 @@ class ForeverPlayer:
                 assert False
         elif stz_state == (7, 1):
             if piece_type == 'S':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left(99)
+                game.hard_drop()
             elif piece_type == 'Z':
-                raise Exception('TODO')
+                game.left()
+                game.rotate(-1)
+                game.hard_drop()
             else:
                 assert False
         elif stz_state == (7, 2):
             if piece_type == 'T':
-                raise Exception('TODO')
+                game.rotate()
+                game.left(99)
+                game.hard_drop()
             elif piece_type == 'Z':
                 raise Exception('TODO')
             else:
@@ -402,7 +444,9 @@ class ForeverPlayer:
                 assert False
         elif stz_state == (8, 1):
             if piece_type == 'S':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left(99)
+                game.hard_drop()
             elif piece_type == 'Z':
                 game.rotate(-1)
                 game.left()
@@ -411,9 +455,13 @@ class ForeverPlayer:
                 assert False
         elif stz_state == (8, 2):
             if piece_type == 'S':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left(99)
+                game.hard_drop()
             elif piece_type == 'Z':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
         elif stz_state == (8, 3):
@@ -424,12 +472,16 @@ class ForeverPlayer:
 
         elif stz_state == (9, 0):
             if piece_type == 'Z':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             else:
                 assert False
         elif stz_state == (9, 1):
             if piece_type == 'Z':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left()
+                game.hard_drop()
             elif piece_type == 'S':
                 game.rotate(-1)
                 game.left(99)
@@ -438,7 +490,9 @@ class ForeverPlayer:
                 assert False
         elif stz_state == (9, 2):
             if piece_type == 'S':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left(99)
+                game.hard_drop()
             else:
                 assert False
 
@@ -451,7 +505,9 @@ class ForeverPlayer:
                 assert False
         elif stz_state == (10, 1):
             if piece_type == 'S':
-                raise Exception('TODO')
+                game.rotate(-1)
+                game.left(99)
+                game.hard_drop()
             else:
                 assert False
 

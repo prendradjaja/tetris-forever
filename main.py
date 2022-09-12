@@ -3,6 +3,15 @@ from tetris import MinoType
 from termcolor import colored
 import random
 from states import STZ_STATES
+from dataclasses import dataclass
+from typing import List
+
+LJO_INDETERMINATE_ORDER = 'LJO_INDETERMINATE_ORDER'
+
+@dataclass
+class LjoState:
+    order: List[str]
+    placed: List[str]
 
 def main():
     game = tetris.BaseGame(seed=14, board_size=(100,10))
@@ -15,30 +24,33 @@ def main():
     player.handle_one_piece()
     player.handle_one_piece()
     player.handle_one_piece()
+    render(game)
     player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
-    player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
+    # player.handle_one_piece()
 
     print('Queue:', game.queue)
     print('Hold:', game.hold)
@@ -50,6 +62,7 @@ class ForeverPlayer:
         self.game = game
         self.phase = 'main'
         self.stz_state = (0, 0)
+        self.ljo_state = LJO_INDETERMINATE_ORDER
 
     def handle_one_piece(self):
         game = self.game
@@ -60,8 +73,12 @@ class ForeverPlayer:
                 game.rotate(random.choice([-1, 1]))
                 game.hard_drop()
             elif piece.type in [MinoType.L, MinoType.O, MinoType.J]:
-                game.right(99)
-                game.hard_drop()
+                piece_type = {
+                    MinoType.L: 'L',
+                    MinoType.J: 'J',
+                    MinoType.O: 'O',
+                }[piece.type]
+                self.handle_one_piece_main_ljo(piece_type)
             elif piece.type in [MinoType.S, MinoType.T, MinoType.Z]:
                 piece_type = {
                     MinoType.S: 'S',
@@ -80,6 +97,116 @@ class ForeverPlayer:
                 raise Exception('Not implemented')
         else:
             raise Exception('Not implemented')
+
+    def handle_one_piece_main_ljo(self, piece_type):
+        game = self.game
+        if self.ljo_state == LJO_INDETERMINATE_ORDER:
+            order = self._determine_ljo_order(piece_type)
+            self.ljo_state = LjoState(order, [])
+            print(self.ljo_state)
+
+        # Would it be cleaner to invert this hierarchy? (Instead of "if len" on the outside then "if
+        # order" on the inside", "if order" on the outside" then "if len" on the inside)
+        ljo_state = self.ljo_state
+        if len(ljo_state.placed) == 0:
+            # O first cases
+            if ljo_state.order[0] == 'O':
+                raise Exception('TODO')
+
+            # O last cases
+            elif ljo_state.order == [*'JLO']:
+                raise Exception('TODO')
+            elif ljo_state.order == [*'LJO']:
+                raise Exception('TODO')
+
+            # O middle cases
+            elif ljo_state.order == [*'JOL']:
+                game.rotate(1)
+                game.right(2)
+                game.hard_drop()
+            elif ljo_state.order == [*'LOJ']:
+                raise Exception('TODO')
+
+            else:
+                assert False
+
+            self.ljo_state.placed.append(piece_type)
+
+        elif len(ljo_state.placed) == 1:
+            # O first cases
+            if ljo_state.order == [*'OJL']:
+                raise Exception('TODO')
+            elif ljo_state.order == [*'OLJ']:
+                raise Exception('TODO')
+
+            # O last cases
+            elif ljo_state.order == [*'JLO']:
+                raise Exception('TODO')
+            elif ljo_state.order == [*'LJO']:
+                raise Exception('TODO')
+
+            # O middle cases
+            elif ljo_state.order == [*'JOL']:
+                game.right(99)
+                game.x_sonic_drop()
+                game.left()
+                game.hard_drop()
+            elif ljo_state.order == [*'LOJ']:
+                raise Exception('TODO')
+
+            else:
+                assert False
+
+            self.ljo_state.placed.append(piece_type)
+
+        elif len(ljo_state.placed) == 2:
+            # O first cases
+            if ljo_state.order == [*'OJL']:
+                raise Exception('TODO')
+            elif ljo_state.order == [*'OLJ']:
+                raise Exception('TODO')
+
+            # O last cases
+            elif ljo_state.order == [*'JLO']:
+                raise Exception('TODO')
+            elif ljo_state.order == [*'LJO']:
+                raise Exception('TODO')
+
+            # O middle cases
+            elif ljo_state.order == [*'JOL']:
+                game.rotate(-1)
+                game.right(99)
+                game.hard_drop()
+            elif ljo_state.order == [*'LOJ']:
+                raise Exception('TODO')
+
+            else:
+                assert False
+
+            self.ljo_state = LJO_INDETERMINATE_ORDER
+        else:
+            assert False
+
+
+    def _determine_ljo_order(self, piece_type):
+        order = []
+        ljo_remaining = ['L', 'J', 'O']
+
+        # First item in `order`
+        order.append(piece_type)
+        ljo_remaining.remove(piece_type)
+
+        queue = [piece_type_to_str(item) for item in get_limited_queue(self.game)]
+        first_ljo_in_queue = [item for item in queue if item in 'LJO'][0]
+
+        # Second item in `order`
+        order.append(first_ljo_in_queue)
+        ljo_remaining.remove(first_ljo_in_queue)
+
+        # Last item in `order`
+        order.append(ljo_remaining[0])
+
+        return order
 
     def handle_one_piece_main_stz(self, piece_type):
         game = self.game
@@ -324,7 +451,7 @@ class ForeverPlayer:
             raise Exception('TODO')
 
 def x_sonic_drop(game):
-    for _ in range(99):
+    for _ in range(200):
         game.soft_drop()
 
 def render(game):
@@ -347,5 +474,15 @@ def render(game):
     print(
         '\n'.join(lines)
     )
+
+def piece_type_to_str(piece_type):
+    s = repr(piece_type)
+    assert s.startswith('PieceType.')
+    return s[-1]
+
+def get_limited_queue(game):
+    # python-tetris shows the programmer the next 7 pieces in the queue, but many versions of Tetris
+    # only show the next 5.
+    return game.queue[:5]
 
 main()
